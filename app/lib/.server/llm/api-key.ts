@@ -47,7 +47,8 @@ export function getBaseURL(cloudflareEnv: Env, provider: string) {
     case 'Ollama':
         let baseUrl = env.OLLAMA_API_BASE_URL || cloudflareEnv.OLLAMA_API_BASE_URL || "http://localhost:11434";
         if (env.RUNNING_IN_DOCKER === 'true') {
-          baseUrl = baseUrl.replace("localhost", "host.docker.internal");
+          // baseUrl = baseUrl.replace("localhost", "host.docker.internal");
+          baseUrl = baseUrl.replace("localhost", "localhost");
         }
         return baseUrl;
     default:

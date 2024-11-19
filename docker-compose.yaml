@@ -30,6 +30,8 @@ services:
   bolt-ai-dev:
     image: bolt-ai:development
     build:
+      context: .
+      dockerfile: Dockerfile
       target: bolt-ai-development
     environment:
       - NODE_ENV=development
@@ -44,18 +46,17 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - OPEN_ROUTER_API_KEY=${OPEN_ROUTER_API_KEY}
       - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
-      - OLLAMA_API_BASE_URL=${OLLAMA_API_BASE_URL}
+      - OLLAMA_API_BASE_URL=http://localhost:11434
       - VITE_LOG_LEVEL=${VITE_LOG_LEVEL:-debug}
       - RUNNING_IN_DOCKER=true
-    extra_hosts:
-      - "host.docker.internal:host-gateway"      
+    network_mode: "host"
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
     volumes:
       - type: bind
         source: .
         target: /app
         consistency: cached
       - /app/node_modules
-    ports:
-      - "5173:5173"  # Same port, no conflict as only one runs at a time
     command: pnpm run dev --host 0.0.0.0
     profiles: ["development", "default"]  # Make development the default profile

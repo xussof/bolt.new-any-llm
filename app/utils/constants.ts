@@ -135,7 +135,8 @@ const getOllamaBaseUrl = () => {
   const isDocker = process.env.RUNNING_IN_DOCKER === 'true';
 
   return isDocker
-    ? defaultBaseUrl.replace('localhost', 'host.docker.internal')
+    // ? defaultBaseUrl.replace('localhost', 'host.docker.internal')
+    ? defaultBaseUrl.replace('localhost', 'localhost')
     : defaultBaseUrl;
 };
 
